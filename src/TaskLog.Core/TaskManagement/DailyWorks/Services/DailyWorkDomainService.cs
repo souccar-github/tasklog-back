@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,6 +36,11 @@ namespace TaskLog.TaskManagement.DailyWorks.Services
                 await _dailyWorkRepository.EnsurePropertyLoadedAsync(dailyWork,x => x.Type);
             }
             return dailyWork;
+        }
+
+        public IQueryable<DailyWork> GetForGrid(string keyword)
+        {
+            return _dailyWorkRepository.GetAllIncluding(x => x.Project,x => x.Type).Where(x => x.Project.Name.Contains(keyword));
         }
 
         public Task<DailyWork> Insert(DailyWork dailyWork)
