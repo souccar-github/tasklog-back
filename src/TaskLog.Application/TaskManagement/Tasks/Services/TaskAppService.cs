@@ -44,7 +44,7 @@ namespace TaskLog.TaskManagement.Tasks.Services
 
         public async Task<List<TaskDto>> GetCurrentUserTasks()
         {
-            return ObjectMapper.Map<TaskDto>(await _taskDomainService.GetCurrentUserTasks());
+            return ObjectMapper.Map<List<TaskDto>>(await _taskDomainService.GetCurrentUserTasks());
         }
 
         public async Task<UpdateTaskDto> GetForEditAsync(EntityDto input)
