@@ -81,9 +81,10 @@ namespace TaskLog.TaskManagement.DailyWorks.Services
             return await _dailyWorkRepository.InsertAsync(dailyWork);
         }
 
-        public Task<DailyWork> Update(DailyWork dailyWork)
+        public async Task<DailyWork> Update(DailyWork dailyWork)
         {
-            throw new NotImplementedException();
+            dailyWork.UserId = (long)_abpSession.UserId;
+            return await _dailyWorkRepository.UpdateAsync(dailyWork);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace TaskLog.TaskManagement.DailyWorks.Dto
 {
     public class UpdateDailyWorkDto : EntityDto
     {
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
         public double Duration { get; set; }
         public int ProjectId { get; set; }
         public int TypeId { get; set; }
