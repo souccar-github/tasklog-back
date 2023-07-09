@@ -1672,11 +1672,16 @@ namespace TaskLog.Migrations
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
 
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
 
                     b.HasIndex("TypeId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("DailyWorks");
                 });
@@ -2132,9 +2137,17 @@ namespace TaskLog.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TaskLog.Authorization.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Project");
 
                     b.Navigation("Type");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TaskLog.TaskManagement.Phases.Phase", b =>
@@ -2157,7 +2170,7 @@ namespace TaskLog.Migrations
                         .IsRequired();
 
                     b.HasOne("TaskLog.TaskManagement.Phases.Phase", "Phase")
-                        .WithMany()
+                        .WithMany("Tasks")
                         .HasForeignKey("PhaseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2244,6 +2257,11 @@ namespace TaskLog.Migrations
                     b.Navigation("Settings");
 
                     b.Navigation("Tokens");
+                });
+
+            modelBuilder.Entity("TaskLog.TaskManagement.Phases.Phase", b =>
+                {
+                    b.Navigation("Tasks");
                 });
 
             modelBuilder.Entity("TaskLog.TaskManagement.Projects.Project", b =>

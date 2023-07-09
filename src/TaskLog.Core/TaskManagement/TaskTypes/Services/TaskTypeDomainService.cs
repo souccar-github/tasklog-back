@@ -31,7 +31,9 @@ namespace TaskLog.TaskManagement.TaskTypes.Services
 
         public IQueryable<TaskType> GetForGrid(string keyword)
         {
+            if(keyword != null)
             return _taskTypeRepository.GetAll().Where(x => x.Name.Contains(keyword));
+            return _taskTypeRepository.GetAll();
         }
 
         public async Task<TaskType> Insert(TaskType taskType)

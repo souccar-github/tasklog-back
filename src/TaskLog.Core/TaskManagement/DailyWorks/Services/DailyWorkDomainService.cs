@@ -1,20 +1,31 @@
 ﻿using Abp.Domain.Repositories;
+using Abp.Runtime.Session;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using TaskLog.Authorization.Roles;
+using TaskLog.Authorization.Users;
 
 namespace TaskLog.TaskManagement.DailyWorks.Services
 {
     public class DailyWorkDomainService : IDailyWorkDomainService
     {
         private readonly IRepository<DailyWork> _dailyWorkRepository;
+        private readonly IAbpSession _abpSession;
+        private readonly UserManager _userManager;
+        private readonly RoleManager _roleManager;
+        private readonly IRepository<User, long> _userRepository;
 
-        public DailyWorkDomainService(IRepository<DailyWork> dailyWorkRepository)
+        public DailyWorkDomainService(IRepository<DailyWork> dailyWorkRepository, IAbpSession abpSession, UserManager userManager, RoleManager roleManager, IRepository<User, long> userRepository)
         {
             _dailyWorkRepository = dailyWorkRepository;
+            _abpSession = abpSession;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _userRepository = userRepository;
         }
 
         public async Task Delete(int dailyWorkId)
@@ -40,12 +51,34 @@ namespace TaskLog.TaskManagement.DailyWorks.Services
 
         public IQueryable<DailyWork> GetForGrid(string keyword)
         {
-            return _dailyWorkRepository.GetAllIncluding(x => x.Project,x => x.Type).Where(x => x.Project.Name.Contains(keyword));
+
+            User user = _userManager.GetUserById((long)_abpSession.GetUserId());
+            var currentUser = _userRepository.FirstOrDefault(x => x.Id == user.Id);
+            if(currentUser != null)
+            {
+                _userRepository.EnsureCollectionLoaded(currentUser, x => x.Roles);
+            }
+            //Role role = _roleManager.GetRoleByName("admin");
+            //if (user.Roles.FirstOrDefault(x => x.RoleId == role.Id) != null)
+            if(currentUser.Roles.FirstOrDefault(x => x.RoleId == 1) != null)
+            {
+                if (keyword != null)
+                    return _dailyWorkRepository.GetAllIncluding(x => x.Project, x => x.Type).Where(x => x.Project.Name.Contains(keyword));
+                    return _dailyWorkRepository.GetAllIncluding(x => x.Project, x => x.Type);
+            }
+            else
+            {
+                if (keyword != null)
+                    return _dailyWorkRepository.GetAllIncluding(x => x.Project, x => x.Type).Where(x => x.Project.Name.Contains(keyword) && x.UserId == user.Id);
+                    return _dailyWorkRepository.GetAllIncluding(x => x.Project, x => x.Type).Where(x => x.UserId == user.Id);
+            }
+           
         }
 
-        public Task<DailyWork> Insert(DailyWork dailyWork)
+        public async Task<DailyWork> Insert(DailyWork dailyWork)
         {
-            throw new NotImplementedException();
+            dailyWork.UserId = (long)_abpSession.UserId;
+            return await _dailyWorkRepository.InsertAsync(dailyWork);
         }
 
         public Task<DailyWork> Update(DailyWork dailyWork)

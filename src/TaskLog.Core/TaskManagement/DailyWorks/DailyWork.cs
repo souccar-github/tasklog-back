@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskLog.Authorization.Users;
 using TaskLog.TaskManagement.Projects;
 using TaskLog.TaskManagement.TaskTypes;
 
@@ -23,6 +24,11 @@ namespace TaskLog.TaskManagement.DailyWorks
         [ForeignKey("Type")]
         public int TypeId { get; set; }
         public TaskType Type { get; set; }
+        #endregion
+        #region User
+        [ForeignKey("User")]
+        public long UserId { get; set; }
+        public User User { get; set; }
         #endregion
 
     }
