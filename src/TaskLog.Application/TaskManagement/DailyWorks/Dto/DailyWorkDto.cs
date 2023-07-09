@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TaskLog.TaskManagement.TaskLogs.Dto;
 using TaskLog.TaskManagement.TaskTypes.Dto;
+using TaskLog.Users.Dto;
 
 namespace TaskLog.TaskManagement.DailyWorks.Dto
 {
@@ -15,5 +16,6 @@ namespace TaskLog.TaskManagement.DailyWorks.Dto
         public double Duration { get; set; }
         public ProjectDto Project { get; set; }
         public TaskTypeDto Type { get; set; }
+        public UserDto User { get; set; }
     }
 }
