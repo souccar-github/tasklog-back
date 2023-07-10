@@ -254,3 +254,4 @@ paket-files/
 src/TaskLog.Web.Mvc/secrets.json
 src/TaskLog.Web.Host/secrets.json
 src/TaskLog.Migrator/secrets.json
+src/TaskLog.Web.Host/App_Data/Logs/Logs.txt
