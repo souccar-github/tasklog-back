@@ -12,7 +12,7 @@ namespace TaskLog.TaskManagement.DailyWorks.Services
 {
     public interface IDailyWorkAppService : IApplicationService
     {
-        PagedResultDto<DailyWorkDto> GetAll(PagedPhaseResultRequestDto input);
+        PagedResultDto<DailyWorkDto> GetAll(PagedDailyWorkResultRequestDto input);
         Task<UpdateDailyWorkDto> GetForEditAsync(EntityDto input);
         Task<DailyWorkDto> GetAsync(EntityDto input);
         Task<DailyWorkDto> CreateAsync(CreateDailyWorkDto input);

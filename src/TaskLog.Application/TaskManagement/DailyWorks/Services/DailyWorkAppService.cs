@@ -28,7 +28,7 @@ namespace TaskLog.TaskManagement.DailyWorks.Services
             await _dailyWorkDomainService.Delete(input.Id);
         }
 
-        public PagedResultDto<DailyWorkDto> GetAll(PagedPhaseResultRequestDto input)
+        public PagedResultDto<DailyWorkDto> GetAll(PagedDailyWorkResultRequestDto input)
         {
             var dailyWorks = _dailyWorkDomainService.GetForGrid(input.Keyword);
             dailyWorks = dailyWorks.Skip(input.SkipCount).Take(input.MaxResultCount);

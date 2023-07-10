@@ -58,9 +58,32 @@ namespace TaskLog.TaskManagement.Phases.Services
             return phase;
         }
 
-        public IQueryable<Phase> GetForGrid(string keyword)
+        public IQueryable<Phase> GetForGrid(string keyword, int ProjectId)
         {
-            return _phaseRepository.GetAllIncluding(x => x.Project,x => x.Tasks).Where(x => x.Title.Contains(keyword));
+            if (keyword != null)
+            {
+                if (ProjectId != 0)
+                {
+                    return _phaseRepository.GetAllIncluding(x => x.Project, x => x.Tasks).Where(x => x.Title.Contains(keyword) && x.ProjectId == ProjectId);
+                }
+                else
+                {
+                    return _phaseRepository.GetAllIncluding(x => x.Project, x => x.Tasks).Where(x => x.Title.Contains(keyword));
+
+                }
+            }
+            else
+            {
+                if (ProjectId != 0)
+                {
+                    return _phaseRepository.GetAllIncluding(x => x.Project, x => x.Tasks).Where(x => x.ProjectId == ProjectId);
+                }
+                else
+                {
+                    return _phaseRepository.GetAllIncluding(x => x.Project, x => x.Tasks);
+
+                }
+            }
         }
 
         public async Task<Phase> Insert(Phase phase)

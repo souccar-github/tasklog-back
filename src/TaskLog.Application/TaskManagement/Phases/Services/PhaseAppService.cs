@@ -35,7 +35,7 @@ namespace TaskLog.TaskManagement.Phases.Services
 
         public PagedResultDto<PhaseDto> GetAll(PagedPhaseResultRequestDto input)
         {
-            var phases = _phaseDomainService.GetForGrid(input.Keyword);
+            var phases = _phaseDomainService.GetForGrid(input.Keyword,input.ProjectId);
             phases = phases.Skip(input.SkipCount).Take(input.MaxResultCount);
 
             var list = ObjectMapper.Map<List<PhaseDto>>(phases.ToList());

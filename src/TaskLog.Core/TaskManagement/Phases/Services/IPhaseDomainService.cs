@@ -7,7 +7,7 @@ namespace TaskLog.TaskManagement.Phases.Services
 {
     public interface IPhaseDomainService : IDomainService
     {
-        IQueryable<Phase> GetForGrid(string keyword);
+        IQueryable<Phase> GetForGrid(string keyword, int ProjectId);
         Task<List<Phase>> GetAll();
         Task<Phase> GetById(int id);
         Task<Phase> Insert(Phase phase);
