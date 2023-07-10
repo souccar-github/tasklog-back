@@ -21,9 +21,9 @@ namespace TaskLog.TaskManagement.Phases.Services
         public async Task CompletePhase(int phaseId)
         {
             var phase = await _phaseRepository.GetAsync(phaseId);
-            if (phase == null)
+            if (phase != null)
             {
-                await _phaseRepository.EnsurePropertyLoadedAsync(phase, x => x.Tasks);
+                await _phaseRepository.EnsureCollectionLoadedAsync(phase, x => x.Tasks);
             }
             var notCompletedTasks = phase.Tasks.Where(x => x.Status != Enums.TaskStatus.Completed).ToList();
 
