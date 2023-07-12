@@ -30,7 +30,7 @@ namespace TaskLog.TaskManagement.Tasks.Services
 
         public PagedResultDto<TaskDto> GetAll(PagedTaskResultRequestDto input)
         {
-            var tasks = _taskDomainService.GetForGrid(input.Keyword);
+            var tasks = _taskDomainService.GetForGrid(input.Keyword,input.PhaseId);
             tasks = tasks.Skip(input.SkipCount).Take(input.MaxResultCount);
 
             var list = ObjectMapper.Map<List<TaskDto>>(tasks.ToList());

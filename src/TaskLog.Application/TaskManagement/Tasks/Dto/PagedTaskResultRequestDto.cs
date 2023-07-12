@@ -10,5 +10,6 @@ namespace TaskLog.TaskManagement.Tasks.Dto
     public class PagedTaskResultRequestDto : PagedResultRequestDto
     {
         public string Keyword { get; set; }
+        public int PhaseId { get; set; }
     }
 }

@@ -15,5 +15,7 @@ namespace TaskLog.TaskManagement.Tasks.Services
         Task<TaskDto> UpdateAsync(UpdateTaskDto input);
         System.Threading.Tasks.Task DeleteAsync(EntityDto input);
         Task<List<TaskDto>> GetCurrentUserTasks();
+        void StartTask(EntityDto input);
+        void CompleteTask(EntityDto input);
     }
 }

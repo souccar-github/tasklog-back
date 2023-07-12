@@ -6,7 +6,7 @@ namespace TaskLog.TaskManagement.Tasks.Services
 {
     public interface ITaskDomainService : IDomainService
     {
-        IQueryable<TaskLog.TaskManagement.Tasks.Task> GetForGrid(string keyword);
+        IQueryable<TaskLog.TaskManagement.Tasks.Task> GetForGrid(string keyword, int phaseId);
         System.Threading.Tasks.Task<List<TaskLog.TaskManagement.Tasks.Task>> GetAll();
         System.Threading.Tasks.Task<List<TaskLog.TaskManagement.Tasks.Task>> GetCurrentUserTasks();
         System.Threading.Tasks.Task<TaskLog.TaskManagement.Tasks.Task> GetbyId(int id);
