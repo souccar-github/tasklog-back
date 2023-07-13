@@ -21,7 +21,8 @@ namespace TaskLog.TaskManagement.Projects.Services
 
         public IQueryable<Project> GetForGrid(string keyword)
         {
-            if(keyword != null)
+            var e = _projectRepository.GetAllIncluding(x => x.Phases).ToList();
+            if (keyword != null)
             return _projectRepository.GetAllIncluding(x => x.Phases).Where(x=>x.Name.Contains(keyword));
             return _projectRepository.GetAllIncluding(x => x.Phases);
         }

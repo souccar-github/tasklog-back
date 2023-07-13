@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskLog.TaskManagement.DailyWorks;
 using TaskLog.TaskManagement.Phases.Dto;
 using TaskLog.TaskManagement.TaskLogs.Dto;
 
@@ -36,10 +37,12 @@ namespace TaskLog.TaskManagement.Phases.Services
         public PagedResultDto<PhaseDto> GetAll(PagedPhaseResultRequestDto input)
         {
             var phases = _phaseDomainService.GetForGrid(input.Keyword,input.ProjectId);
+            int total = phases.Count();
+
             phases = phases.Skip(input.SkipCount).Take(input.MaxResultCount);
 
             var list = ObjectMapper.Map<List<PhaseDto>>(phases.ToList());
-            return new PagedResultDto<PhaseDto>(list.Count, list);
+            return new PagedResultDto<PhaseDto>(total, list);
         }
 
         public async Task<PhaseDto> GetAsync(EntityDto input)

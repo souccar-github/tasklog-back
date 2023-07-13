@@ -26,6 +26,13 @@ namespace TaskLog.TaskManagement.Tasks.Services
             _userRepository = userRepository;
         }
 
+        public async System.Threading.Tasks.Task CompleteTask(int id)
+        {
+            var task = await _taskRepository.GetAsync(id);
+            task.Status = Enums.TaskStatus.Completed;
+            await _taskRepository.UpdateAsync(task);
+        }
+
         public async System.Threading.Tasks.Task Delete(int taskId)
         {
             await _taskRepository.DeleteAsync(taskId);
@@ -61,22 +68,22 @@ namespace TaskLog.TaskManagement.Tasks.Services
                 {
                     if (phaseId != 0)
                     {
-                        return _taskRepository.GetAllIncluding(x => x.Type, x => x.AssignedTo, x => x.Phase).Where(x => x.Title.Contains(keyword) && x.PhaseId == phaseId);
+                        return _taskRepository.GetAllIncluding(x => x.Type, x => x.AssignedTo, x => x.Phase).Where(x => x.Title.Contains(keyword) && x.PhaseId == phaseId).OrderByDescending(x => x.Priority).ThenByDescending(x => x.Id);
                     }
                     else
                     {
-                        return _taskRepository.GetAllIncluding(x => x.Type, x => x.AssignedTo, x => x.Phase).Where(x => x.Title.Contains(keyword));
+                        return _taskRepository.GetAllIncluding(x => x.Type, x => x.AssignedTo, x => x.Phase).Where(x => x.Title.Contains(keyword)).OrderByDescending(x => x.Priority).ThenByDescending(x => x.Id);
                     }
                 }
                 else
                 {
                     if (phaseId != 0)
                     {
-                        return _taskRepository.GetAllIncluding(x => x.Type, x => x.AssignedTo, x => x.Phase).Where(x => x.PhaseId == phaseId);
+                        return _taskRepository.GetAllIncluding(x => x.Type, x => x.AssignedTo, x => x.Phase).Where(x => x.PhaseId == phaseId).OrderByDescending(x => x.Priority).ThenByDescending(x => x.Id);
                     }
                     else
                     {
-                        return _taskRepository.GetAllIncluding(x => x.Type, x => x.AssignedTo, x => x.Phase);
+                        return _taskRepository.GetAllIncluding(x => x.Type, x => x.AssignedTo, x => x.Phase).OrderByDescending(x => x.Priority).ThenByDescending(x => x.Id);
                     }
                 }
             }
@@ -86,22 +93,22 @@ namespace TaskLog.TaskManagement.Tasks.Services
                 {
                     if (phaseId != 0)
                     {
-                        return _taskRepository.GetAllIncluding(x => x.Type, x => x.AssignedTo, x => x.Phase).Where(x => x.Title.Contains(keyword) && x.PhaseId == phaseId && x.AssignedToId == user.Id);
+                        return _taskRepository.GetAllIncluding(x => x.Type, x => x.AssignedTo, x => x.Phase).Where(x => x.Title.Contains(keyword) && x.PhaseId == phaseId && x.AssignedToId == user.Id).OrderByDescending(x => x.Priority).ThenByDescending(x => x.Id);
                     }
                     else
                     {
-                        return _taskRepository.GetAllIncluding(x => x.Type, x => x.AssignedTo, x => x.Phase).Where(x => x.Title.Contains(keyword) && x.AssignedToId == user.Id);
+                        return _taskRepository.GetAllIncluding(x => x.Type, x => x.AssignedTo, x => x.Phase).Where(x => x.Title.Contains(keyword) && x.AssignedToId == user.Id).OrderByDescending(x => x.Priority).ThenByDescending(x => x.Id);
                     }
                 }
                 else
                 {
                     if (phaseId != 0)
                     {
-                        return _taskRepository.GetAllIncluding(x => x.Type, x => x.AssignedTo, x => x.Phase).Where(x => x.PhaseId == phaseId && x.AssignedToId == user.Id);
+                        return _taskRepository.GetAllIncluding(x => x.Type, x => x.AssignedTo, x => x.Phase).Where(x => x.PhaseId == phaseId && x.AssignedToId == user.Id).OrderByDescending(x => x.Priority).ThenByDescending(x => x.Id);
                     }
                     else
                     {
-                        return _taskRepository.GetAllIncluding(x => x.Type, x => x.AssignedTo, x => x.Phase).Where(x => x.AssignedToId == user.Id);
+                        return _taskRepository.GetAllIncluding(x => x.Type, x => x.AssignedTo, x => x.Phase).Where(x => x.AssignedToId == user.Id).OrderByDescending(x => x.Priority).ThenByDescending(x => x.Id);
                     }
                 }
             }
@@ -113,6 +120,13 @@ namespace TaskLog.TaskManagement.Tasks.Services
         {
             int newTaskId = await _taskRepository.InsertAndGetIdAsync(task);
             return _taskRepository.GetAllIncluding(x => x.AssignedTo, x => x.Phase, x => x.Type).FirstOrDefault(x => x.Id == newTaskId);
+        }
+
+        public async System.Threading.Tasks.Task StartTask(int id)
+        {
+            var task = await _taskRepository.GetAsync(id);
+            task.Status = Enums.TaskStatus.Started;
+            await _taskRepository.UpdateAsync(task);
         }
 
         public async Task<Task> Update(Task task)

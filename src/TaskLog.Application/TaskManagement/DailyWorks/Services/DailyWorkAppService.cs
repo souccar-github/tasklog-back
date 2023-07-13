@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TaskLog.TaskManagement.DailyWorks.Dto;
 using TaskLog.TaskManagement.Phases.Dto;
+using TaskLog.TaskManagement.Projects;
 
 namespace TaskLog.TaskManagement.DailyWorks.Services
 {
@@ -31,10 +32,11 @@ namespace TaskLog.TaskManagement.DailyWorks.Services
         public PagedResultDto<DailyWorkDto> GetAll(PagedDailyWorkResultRequestDto input)
         {
             var dailyWorks = _dailyWorkDomainService.GetForGrid(input.Keyword);
+            int total = dailyWorks.Count();
             dailyWorks = dailyWorks.Skip(input.SkipCount).Take(input.MaxResultCount);
 
             var list = ObjectMapper.Map<List<DailyWorkDto>>(dailyWorks.ToList());
-            return new PagedResultDto<DailyWorkDto>(list.Count, list);
+            return new PagedResultDto<DailyWorkDto>(total, list); ;
         }
 
         public async Task<DailyWorkDto> GetAsync(EntityDto input)

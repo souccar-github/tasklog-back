@@ -34,10 +34,11 @@ namespace TaskLog.TaskManagement.TaskLogs.Services
         public PagedResultDto<ProjectDto> GetAll(PagedProjectResultRequestDto input)
         {
             var projects = _projectDomainService.GetForGrid(input.Keyword);
+            int total = projects.Count();
             projects = projects.Skip(input.SkipCount).Take(input.MaxResultCount);
 
             var list = ObjectMapper.Map<List<ProjectDto>>(projects.ToList());
-            return new PagedResultDto<ProjectDto>(list.Count, list);
+            return new PagedResultDto<ProjectDto>(total, list);
         }
 
         public async Task<ProjectDto> GetAsync(EntityDto input)

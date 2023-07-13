@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskLog.TaskManagement.Phases;
 using TaskLog.TaskManagement.Phases.Dto;
 using TaskLog.TaskManagement.Tasks.Dto;
 
@@ -16,6 +17,11 @@ namespace TaskLog.TaskManagement.Tasks.Services
         public TaskAppService(ITaskDomainService taskDomainService)
         {
             _taskDomainService = taskDomainService;
+        }
+
+        public async System.Threading.Tasks.Task CompleteTask(EntityDto input)
+        {
+            await _taskDomainService.CompleteTask(input.Id);
         }
 
         public async Task<TaskDto> CreateAsync(CreateTaskDto input)
@@ -31,10 +37,12 @@ namespace TaskLog.TaskManagement.Tasks.Services
         public PagedResultDto<TaskDto> GetAll(PagedTaskResultRequestDto input)
         {
             var tasks = _taskDomainService.GetForGrid(input.Keyword,input.PhaseId);
+            int total = tasks.Count();
+
             tasks = tasks.Skip(input.SkipCount).Take(input.MaxResultCount);
 
             var list = ObjectMapper.Map<List<TaskDto>>(tasks.ToList());
-            return new PagedResultDto<TaskDto>(list.Count, list);
+            return new PagedResultDto<TaskDto>(total, list);
         }
 
         public async Task<TaskDto> GetAsync(EntityDto input)
@@ -50,6 +58,11 @@ namespace TaskLog.TaskManagement.Tasks.Services
         public async Task<UpdateTaskDto> GetForEditAsync(EntityDto input)
         {
             return ObjectMapper.Map<UpdateTaskDto>(await _taskDomainService.GetbyId(input.Id));
+        }
+
+        public async System.Threading.Tasks.Task StartTask(EntityDto input)
+        {
+            await _taskDomainService.StartTask(input.Id);
         }
 
         public async Task<TaskDto> UpdateAsync(UpdateTaskDto input)

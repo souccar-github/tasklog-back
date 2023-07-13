@@ -63,14 +63,14 @@ namespace TaskLog.TaskManagement.DailyWorks.Services
             if(currentUser.Roles.FirstOrDefault(x => x.RoleId == 1) != null)
             {
                 if (keyword != null)
-                    return _dailyWorkRepository.GetAllIncluding(x => x.Project, x => x.Type,x => x.User).Where(x => x.Project.Name.Contains(keyword));
-                    return _dailyWorkRepository.GetAllIncluding(x => x.Project, x => x.Type, x => x.User);
+                    return _dailyWorkRepository.GetAllIncluding(x => x.Project, x => x.Type,x => x.User).Where(x => x.Project.Name.Contains(keyword)).OrderByDescending(x => x.Id);
+                    return _dailyWorkRepository.GetAllIncluding(x => x.Project, x => x.Type, x => x.User).OrderByDescending(x => x.Id);
             }
             else
             {
                 if (keyword != null)
-                    return _dailyWorkRepository.GetAllIncluding(x => x.Project, x => x.Type, x => x.User).Where(x => x.Project.Name.Contains(keyword) && x.UserId == user.Id);
-                    return _dailyWorkRepository.GetAllIncluding(x => x.Project, x => x.Type, x => x.User).Where(x => x.UserId == user.Id);
+                    return _dailyWorkRepository.GetAllIncluding(x => x.Project, x => x.Type, x => x.User).Where(x => x.Project.Name.Contains(keyword) && x.UserId == user.Id).OrderByDescending(x => x.Id);
+                    return _dailyWorkRepository.GetAllIncluding(x => x.Project, x => x.Type, x => x.User).Where(x => x.UserId == user.Id).OrderByDescending(x => x.Id);
             }
            
         }

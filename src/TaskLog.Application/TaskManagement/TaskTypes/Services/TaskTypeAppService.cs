@@ -31,10 +31,11 @@ namespace TaskLog.TaskManagement.TaskTypes.Services
         public PagedResultDto<TaskTypeDto> GetAll(PagedTaskTypeResultRequestDto input)
         {
             var taskTypes = _taskTypeDomainService.GetForGrid(input.Keyword);
+            int total = taskTypes.Count();
             taskTypes = taskTypes.Skip(input.SkipCount).Take(input.MaxResultCount);
 
             var list = ObjectMapper.Map<List<TaskTypeDto>>(taskTypes.ToList());
-            return new PagedResultDto<TaskTypeDto>(list.Count, list);
+            return new PagedResultDto<TaskTypeDto>(total, list);
         }
 
         public async Task<TaskTypeDto> GetAsync(EntityDto input)
