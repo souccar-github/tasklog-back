@@ -2,8 +2,9 @@
 {
     public enum TaskStatus
     {
-        NotStarted,
-        Started,
+        Proposed,
+        Active,
+        Testing,
         Completed,
     }
 }

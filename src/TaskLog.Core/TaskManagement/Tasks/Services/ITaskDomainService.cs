@@ -14,6 +14,8 @@ namespace TaskLog.TaskManagement.Tasks.Services
         System.Threading.Tasks.Task<TaskLog.TaskManagement.Tasks.Task> Update(TaskLog.TaskManagement.Tasks.Task task);
         System.Threading.Tasks.Task Delete(int taskId);
         System.Threading.Tasks.Task StartTask(int id);
+        System.Threading.Tasks.Task TestTask(int id);
         System.Threading.Tasks.Task CompleteTask(int id);
+        System.Threading.Tasks.Task ProposeTask(int id);
     }
 }

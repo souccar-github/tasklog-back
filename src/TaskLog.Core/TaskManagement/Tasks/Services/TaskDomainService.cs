@@ -122,10 +122,24 @@ namespace TaskLog.TaskManagement.Tasks.Services
             return _taskRepository.GetAllIncluding(x => x.AssignedTo, x => x.Phase, x => x.Type).FirstOrDefault(x => x.Id == newTaskId);
         }
 
+        public async System.Threading.Tasks.Task ProposeTask(int id)
+        {
+            var task = await _taskRepository.GetAsync(id);
+            task.Status = Enums.TaskStatus.Proposed;
+            await _taskRepository.UpdateAsync(task);
+        }
+
         public async System.Threading.Tasks.Task StartTask(int id)
         {
             var task = await _taskRepository.GetAsync(id);
-            task.Status = Enums.TaskStatus.Started;
+            task.Status = Enums.TaskStatus.Active;
+            await _taskRepository.UpdateAsync(task);
+        }
+
+        public async System.Threading.Tasks.Task TestTask(int id)
+        {
+            var task = await _taskRepository.GetAsync(id);
+            task.Status = Enums.TaskStatus.Testing;
             await _taskRepository.UpdateAsync(task);
         }
 

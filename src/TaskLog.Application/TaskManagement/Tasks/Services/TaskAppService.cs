@@ -60,9 +60,19 @@ namespace TaskLog.TaskManagement.Tasks.Services
             return ObjectMapper.Map<UpdateTaskDto>(await _taskDomainService.GetbyId(input.Id));
         }
 
+        public async System.Threading.Tasks.Task ProposeTask(EntityDto input)
+        {
+            await _taskDomainService.ProposeTask(input.Id);
+        }
+
         public async System.Threading.Tasks.Task StartTask(EntityDto input)
         {
             await _taskDomainService.StartTask(input.Id);
+        }
+
+        public async System.Threading.Tasks.Task TestTask(EntityDto input)
+        {
+            await _taskDomainService.TestTask(input.Id);
         }
 
         public async Task<TaskDto> UpdateAsync(UpdateTaskDto input)

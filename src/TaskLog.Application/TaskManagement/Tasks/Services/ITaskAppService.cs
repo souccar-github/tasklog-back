@@ -16,6 +16,8 @@ namespace TaskLog.TaskManagement.Tasks.Services
         System.Threading.Tasks.Task DeleteAsync(EntityDto input);
         Task<List<TaskDto>> GetCurrentUserTasks();
         System.Threading.Tasks.Task StartTask(EntityDto input);
+        System.Threading.Tasks.Task TestTask(EntityDto input);
         System.Threading.Tasks.Task CompleteTask(EntityDto input);
+        System.Threading.Tasks.Task ProposeTask(EntityDto input);
     }
 }
