@@ -51,7 +51,20 @@ namespace TaskLog.TaskManagement.Tasks.Services
         public async Task<List<Task>> GetCurrentUserTasks()
         {
             long userId = _abpSession.GetUserId();
-            return _taskRepository.GetAllIncluding(x => x.AssignedTo, x => x.Phase, x => x.Type).Where(x => x.AssignedToId == userId).ToList();
+            User user = _userManager.GetUserById((long)_abpSession.GetUserId());
+            if (user != null)
+            {
+                _userRepository.EnsureCollectionLoaded(user, x => x.Roles);
+            }
+            Role role = _roleManager.GetRoleByName("admin");
+            if (user.Roles.FirstOrDefault(x => x.RoleId == role.Id) != null)
+            {
+                return _taskRepository.GetAllIncluding(x => x.AssignedTo, x => x.Phase, x => x.Type).ToList();
+            }
+            else
+            {
+                return _taskRepository.GetAllIncluding(x => x.AssignedTo, x => x.Phase, x => x.Type).Where(x => x.AssignedToId == userId).ToList();
+            }
         }
 
         public IQueryable<Task> GetForGrid(string keyword, int phaseId)
