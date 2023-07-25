@@ -12,6 +12,7 @@ namespace TaskLog.TaskManagement.Tasks
     {
         public DateTime? CreationDate { get; set; }
         public DateTime? FinishedDate { get; set; }
+        public bool isBug { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         #region Phase

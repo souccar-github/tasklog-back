@@ -12,6 +12,7 @@ namespace TaskLog.TaskManagement.Tasks.Dto
 {
     public class TaskDto : EntityDto
     {
+        public bool isBug { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public PhaseDto Phase { get; set; }
