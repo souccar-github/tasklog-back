@@ -32,5 +32,6 @@ namespace TaskLog.TaskManagement.Tasks
         public TaskType Type { get; set; }
         #endregion
         public TaskPriority Priority { get; set; }
+        public string RichTextDescription { get; set; }
     }
 }

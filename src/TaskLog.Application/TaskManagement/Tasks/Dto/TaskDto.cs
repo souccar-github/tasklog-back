@@ -20,5 +20,7 @@ namespace TaskLog.TaskManagement.Tasks.Dto
         public UserDto AssignedTo { get; set; }
         public TaskTypeDto Type { get; set; }
         public int Priority { get; set; }
+        public string RichTextDescription { get; set; }
+
     }
 }
